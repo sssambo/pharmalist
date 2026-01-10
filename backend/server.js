@@ -7,7 +7,7 @@ import cors from "cors";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
@@ -353,8 +353,7 @@ app.put("/api/raw-medicines", (req, res) => {
 				// Check if this edited name already exists in valid names
 				const exists = data.validNames.some(
 					(vn) =>
-						vn.name.toLowerCase() ===
-						medicine.name.toLowerCase()
+						vn.name.toLowerCase() === medicine.name.toLowerCase()
 				);
 
 				if (!exists) {
@@ -379,15 +378,21 @@ app.put("/api/raw-medicines", (req, res) => {
 		);
 		writeValidNames(data);
 
-		res.json({ 
+		res.json({
 			message: "Raw medicines updated successfully",
-			validNames: data.validNames
+			validNames: data.validNames,
 		});
 	} catch (error) {
 		res.status(500).json({ error: "Failed to update raw medicines" });
 	}
 });
+// Serve frontend (production)
+const frontendDistPath = path.join(__dirname, "../frontend/dist");
+app.use(express.static(frontendDistPath));
 
+app.get("*", (req, res) => {
+	res.sendFile(path.join(frontendDistPath, "index.html"));
+});
 // Start server
 app.listen(PORT, () => {
 	console.log(`Server running at http://localhost:${PORT}`);
