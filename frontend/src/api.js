@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = process.env.BACKEND_URL || "http://localhost:5000";
 
 const api = axios.create({
 	baseURL: API_BASE_URL,
@@ -20,8 +20,7 @@ export const validNamesAPI = {
 // Raw Medicines API
 export const rawMedicinesAPI = {
 	getAll: () => api.get("/api/raw-medicines"),
-	updateAll: (medicines) =>
-		api.put("/api/raw-medicines", medicines),
+	updateAll: (medicines) => api.put("/api/raw-medicines", medicines),
 	validateMedicine: (medicineName) =>
 		api.put("/api/raw-medicines/validate", { medicineName }),
 };
