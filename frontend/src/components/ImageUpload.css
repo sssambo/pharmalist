@@ -1,0 +1,92 @@
+.image-upload-modal {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 12px 12px 0 0;
+  padding: 16px;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  animation: slideUpModal 0.3s ease;
+}
+
+@keyframes slideUpModal {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.upload-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+.upload-btn {
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.camera-btn {
+  background-color: var(--primary);
+  color: white;
+}
+
+.camera-btn:hover {
+  background-color: var(--primary-dark);
+}
+
+.gallery-btn {
+  background-color: var(--secondary);
+  color: white;
+}
+
+.gallery-btn:hover {
+  background-color: #2563eb;
+}
+
+.close-btn {
+  background-color: var(--neutral-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--neutral-border);
+}
+
+.close-btn:hover {
+  background-color: #f3f4f6;
+}
+
+.upload-progress {
+  margin-top: 12px;
+  padding: 12px;
+  text-align: center;
+  color: var(--secondary);
+  font-weight: 600;
+}
+
+.upload-error {
+  margin-top: 12px;
+  padding: 12px;
+  background-color: #fee2e2;
+  color: var(--error);
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .upload-actions {
+    grid-template-columns: 1fr;
+  }
+}

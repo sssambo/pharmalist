@@ -1,0 +1,56 @@
+{
+  "validNames": [
+    {
+      "id": "1768013201635",
+      "name": "Sringe smm",
+      "categories": [
+        "ANTIHISTAMINE"
+      ],
+      "units": [
+        "B"
+      ],
+      "imagePath": null,
+      "hasImage": false
+    },
+    {
+      "id": "1768016364745",
+      "name": "A C T ×5",
+      "categories": [],
+      "units": [
+        "B"
+      ],
+      "imagePath": null,
+      "hasImage": false
+    },
+    {
+      "id": "1768016491755",
+      "name": "ACT",
+      "categories": [],
+      "units": [
+        "R"
+      ],
+      "imagePath": null,
+      "hasImage": false
+    },
+    {
+      "id": "1768016546865",
+      "name": "A C T ×6",
+      "categories": [],
+      "units": [
+        "B"
+      ],
+      "imagePath": null,
+      "hasImage": false
+    },
+    {
+      "id": "1768016562402",
+      "name": "Actited",
+      "categories": [],
+      "units": [
+        "R"
+      ],
+      "imagePath": null,
+      "hasImage": false
+    }
+  ]
+}

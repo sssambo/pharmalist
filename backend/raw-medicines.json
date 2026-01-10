@@ -1,0 +1,582 @@
+[
+  {
+    "name": "A C T ×5",
+    "unit": "B",
+    "edited": true
+  },
+  {
+    "name": "Amlodipin",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Amonil",
+    "unit": "k",
+    "edited": false
+  },
+  {
+    "name": "Amonil",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Ampicillin",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Ampicloni",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Ampiclox",
+    "unit": "k",
+    "edited": false
+  },
+  {
+    "name": "Argumentin 12",
+    "unit": "P",
+    "edited": false
+  },
+  {
+    "name": "Argumentive 625",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Artisunat",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Asmadex",
+    "unit": "P",
+    "edited": false
+  },
+  {
+    "name": "Azithromycin",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "B_artmethen",
+    "unit": "K",
+    "edited": false
+  },
+  {
+    "name": "B_complen",
+    "unit": "K",
+    "edited": false
+  },
+  {
+    "name": "B_complen",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "B-cample",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Babamol",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Babamol",
+    "unit": "P",
+    "edited": false
+  },
+  {
+    "name": "Bandage",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Bandase b.s",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Baralgin",
+    "unit": "P",
+    "edited": false
+  },
+  {
+    "name": "Canula",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Canulen",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Canuler",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Canuter",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Ceftraizar",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Cimetadin",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Ciponin sim",
+    "unit": "K",
+    "edited": false
+  },
+  {
+    "name": "Cipronin",
+    "unit": "K",
+    "edited": false
+  },
+  {
+    "name": "Clotomol",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Cofoff",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Cold time sim",
+    "unit": "K",
+    "edited": false
+  },
+  {
+    "name": "Corfonwall",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Cortannul",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Corten wall",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Cortewul sim",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Cough children",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Cough krish",
+    "unit": "k",
+    "edited": false
+  },
+  {
+    "name": "Cough",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "CQ extra",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "CQ",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Cristolin children",
+    "unit": "K",
+    "edited": false
+  },
+  {
+    "name": "D/S 500",
+    "unit": "k",
+    "edited": false
+  },
+  {
+    "name": "D/S",
+    "unit": "K",
+    "edited": false
+  },
+  {
+    "name": "Dexa",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Diclofen 50",
+    "unit": "K",
+    "edited": false
+  },
+  {
+    "name": "Diclofen 50",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Diclofen",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Doxy",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Egluve",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Entapen",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Erythamacin",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Erythamacin",
+    "unit": "k",
+    "edited": false
+  },
+  {
+    "name": "Feldin",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Flagin",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Flasil",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Flastue",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Frosimid",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Gentu",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Grip water",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Hyocin",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Ibrofix 400",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Jadayelo",
+    "unit": "P",
+    "edited": false
+  },
+  {
+    "name": "Kafilara",
+    "unit": "P",
+    "edited": false
+  },
+  {
+    "name": "Kafilara",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Kaimoral",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Kaira coug adm",
+    "unit": "K",
+    "edited": false
+  },
+  {
+    "name": "kairacid b.g",
+    "unit": "k",
+    "edited": false
+  },
+  {
+    "name": "Kairakid",
+    "unit": "K",
+    "edited": false
+  },
+  {
+    "name": "Kisacid B.S",
+    "unit": "k",
+    "edited": false
+  },
+  {
+    "name": "kraicous adal",
+    "unit": "k",
+    "edited": false
+  },
+  {
+    "name": "Krakid",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Krisacid sim",
+    "unit": "K",
+    "edited": false
+  },
+  {
+    "name": "Kristed",
+    "unit": "K",
+    "edited": false
+  },
+  {
+    "name": "kristohin",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Kristolin",
+    "unit": "k",
+    "edited": false
+  },
+  {
+    "name": "Levo floxacin",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "levoltonucin",
+    "unit": "K",
+    "edited": false
+  },
+  {
+    "name": "Limphacin",
+    "unit": "P",
+    "edited": false
+  },
+  {
+    "name": "Menagrin sim",
+    "unit": "P",
+    "edited": false
+  },
+  {
+    "name": "Metro krish",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Metro",
+    "unit": "K",
+    "edited": false
+  },
+  {
+    "name": "Metro",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Multival",
+    "unit": "P",
+    "edited": false
+  },
+  {
+    "name": "Multivat",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "N/S 500",
+    "unit": "K",
+    "edited": false
+  },
+  {
+    "name": "Needel",
+    "unit": "P",
+    "edited": false
+  },
+  {
+    "name": "Nomalsal 500",
+    "unit": "k",
+    "edited": false
+  },
+  {
+    "name": "Nopune",
+    "unit": "P",
+    "edited": false
+  },
+  {
+    "name": "Offloxacin 400",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Omecet",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Omeprazole b.s",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Omeprazole",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Ostiyo",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Oxytocin",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Pcam",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "PCM kaira",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "pcm kraira",
+    "unit": "k",
+    "edited": false
+  },
+  {
+    "name": "PCM up",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Prasimid",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Pravethatic",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Procold",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Promethatin",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Prosimid",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Quinin",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "R/L 500",
+    "unit": "k",
+    "edited": false
+  },
+  {
+    "name": "Riyali",
+    "unit": "P",
+    "edited": false
+  },
+  {
+    "name": "Saptrin 960",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Scalvin",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Sorgical Gluve",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Sorgincal gluve",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Sringe 2m",
+    "unit": "B",
+    "edited": false
+  },
+  {
+    "name": "Vega 100m",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Vega 180",
+    "unit": "R",
+    "edited": false
+  },
+  {
+    "name": "Vegu 100",
+    "unit": "K",
+    "edited": false
+  },
+  {
+    "name": "Zapa",
+    "unit": "R",
+    "edited": false
+  }
+]
