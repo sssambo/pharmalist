@@ -1,0 +1,158 @@
+.valid-name-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  gap: 16px;
+  margin-bottom: 12px;
+  transition: all 0.2s;
+}
+
+.valid-name-item:hover {
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+}
+
+.valid-name-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.valid-name-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.valid-name-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.valid-name-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detail-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.detail-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  min-width: 80px;
+}
+
+.category-badges,
+.unit-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.category-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  background-color: #10b981;
+  color: white;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.unit-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  background-color: #f0fdf4;
+  color: #065f46;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.no-data-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.valid-name-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 140px;
+}
+
+.btn-add-categories,
+.btn-add-units,
+.btn-edit-name {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-add-categories,
+.btn-add-units {
+  background-color: #dbeafe;
+  color: #0c4a6e;
+  border: 1px solid #7dd3fc;
+}
+
+.btn-add-categories:hover,
+.btn-add-units:hover {
+  background-color: #bfdbfe;
+}
+
+.btn-edit-name {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn-edit-name:hover {
+  background-color: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+  .valid-name-item {
+    flex-direction: column;
+  }
+
+  .valid-name-actions {
+    width: 100%;
+    min-width: auto;
+    flex-direction: row;
+  }
+
+  .btn-add-categories,
+  .btn-add-units,
+  .btn-edit-name {
+    flex: 1;
+  }
+
+  .detail-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .detail-label {
+    min-width: auto;
+  }
+}
