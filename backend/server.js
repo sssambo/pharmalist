@@ -370,14 +370,6 @@ app.put("/api/raw-medicines", async (req, res) => {
 	}
 });
 
-// Serve frontend (production)
-const frontendDistPath = path.join(__dirname, "../frontend/dist");
-app.use(express.static(frontendDistPath));
-
-app.get("*", (req, res) => {
-	res.sendFile(path.join(frontendDistPath, "index.html"));
-});
-
 // Start server
 app.listen(PORT, () => {
 	console.log(`Server running at http://localhost:${PORT}`);

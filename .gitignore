@@ -6,3 +6,5 @@ build/
 .env.local
 .DS_Store
 .vercel/
+*package-lock.json
+package-lock.json
