@@ -12,6 +12,10 @@ function ValidateNamesModal({
 	onClose,
 }) {
 	const [search, setSearch] = useState("");
+	const [loadingMedicine, setLoadingMedicine] = useState(null);
+	const [successMedicine, setSuccessMedicine] = useState(null);
+	const [errorMedicine, setErrorMedicine] = useState(null);
+	const [errorMessage, setErrorMessage] = useState(null);
 
 	const medicinesByName = useMemo(() => {
 		const grouped = {};
@@ -53,6 +57,37 @@ function ValidateNamesModal({
 		if (typeof onRequestEdit === "function") {
 			onRequestEdit(medicine);
 			return;
+		}
+	};
+
+	const handleValidateMedicine = async (medicine) => {
+		setLoadingMedicine(medicine.name);
+		setErrorMedicine(null);
+		setErrorMessage(null);
+		try {
+			if (typeof onValidate === "function") {
+				await onValidate(medicine);
+			} else {
+				handleAddName(medicine);
+			}
+			// Show success state
+			setLoadingMedicine(null);
+			setSuccessMedicine(medicine.name);
+			// Fade out after 1.5 seconds
+			setTimeout(() => setSuccessMedicine(null), 1500);
+		} catch (error) {
+			setLoadingMedicine(null);
+			const errorMsg =
+				error.response?.data?.error ||
+				error.message ||
+				"Validation failed";
+			setErrorMedicine(medicine.name);
+			setErrorMessage(errorMsg);
+			// Fade out after 3 seconds
+			setTimeout(() => {
+				setErrorMedicine(null);
+				setErrorMessage(null);
+			}, 3000);
 		}
 	};
 
@@ -98,15 +133,43 @@ function ValidateNamesModal({
 								</div>
 								<div className="medicine-actions">
 									<button
-										className="btn-add-small"
+										className={`btn-add-small ${
+											loadingMedicine === medicine.name
+												? "loading"
+												: ""
+										} ${
+											successMedicine === medicine.name
+												? "success"
+												: ""
+										} ${
+											errorMedicine === medicine.name
+												? "error"
+												: ""
+										}`}
 										onClick={() =>
-											typeof onValidate === "function"
-												? onValidate(medicine)
-												: handleAddName(medicine)
+											handleValidateMedicine(medicine)
 										}
+										disabled={
+											loadingMedicine === medicine.name
+										}
+										title={errorMessage || undefined}
 									>
-										✓ Valid
+										{loadingMedicine === medicine.name ? (
+											<span className="spinner"></span>
+										) : successMedicine ===
+										  medicine.name ? (
+											"✓"
+										) : errorMedicine === medicine.name ? (
+											"✗"
+										) : (
+											"✓ Valid"
+										)}
 									</button>
+									{errorMedicine === medicine.name && (
+										<span className="error-hint">
+											{errorMessage}
+										</span>
+									)}
 									<button
 										className="btn-edit-small"
 										onClick={() =>

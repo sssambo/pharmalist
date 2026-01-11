@@ -130,6 +130,39 @@
   background-color: var(--primary-dark);
 }
 
+/* Loading and Success States */
+.btn-add-small.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.btn-add-small.loading .spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.btn-add-small.success {
+    background-color: #4caf50;
+    animation: fadeOut 0.5s ease-in 1s forwards;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0.3;
+    }
+}
+
 @media (max-width: 768px) {
   .valid-name-item {
     flex-direction: column;

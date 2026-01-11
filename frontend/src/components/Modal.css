@@ -140,6 +140,67 @@
   background: #45a049;
 }
 
+.btn-add-small.success {
+  background: #4caf50;
+  animation: pulse-success 0.3s ease-out;
+}
+
+.btn-add-small.error {
+  background: #f44336;
+  animation: pulse-error 0.3s ease-out;
+}
+
+@keyframes pulse-success {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse-error {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scaleX(0.9);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  75% {
+    transform: scaleX(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.error-hint {
+  font-size: 11px;
+  color: #f44336;
+  margin-top: 4px;
+  display: block;
+  text-align: center;
+  font-weight: 500;
+  animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .btn-delete-small {
   background: #f44336;
   color: white;
@@ -321,6 +382,8 @@
     display: flex;
     gap: 8px;
     justify-content: flex-end;
+    flex-wrap: wrap;
+    align-items: center;
   }
 
   .mobile-modal .modal-container {

@@ -8,3 +8,5 @@ build/
 .vercel/
 *package-lock.json
 package-lock.json
+/frontend/*lock.json*
+/backend/*lock.json*

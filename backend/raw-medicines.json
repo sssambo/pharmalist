@@ -1,98 +1,45 @@
 [
   {
-    "name": "A C T ×5",
-    "unit": "B",
-    "edited": true
-  },
-  {
-    "name": "Amlodipin",
-    "unit": "R",
-    "edited": false
-  },
-  {
-    "name": "Amonil",
-    "unit": "k",
-    "edited": false
-  },
-  {
-    "name": "Amonil",
-    "unit": "R",
-    "edited": false
-  },
-  {
-    "name": "Ampicillin",
-    "unit": "R",
-    "edited": false
-  },
-  {
-    "name": "Ampicloni",
-    "unit": "R",
-    "edited": false
-  },
-  {
-    "name": "Ampiclox",
-    "unit": "k",
-    "edited": false
-  },
-  {
-    "name": "Argumentin 12",
-    "unit": "P",
-    "edited": false
-  },
-  {
-    "name": "Argumentive 625",
-    "unit": "R",
-    "edited": false
-  },
-  {
-    "name": "Artisunat",
-    "unit": "B",
-    "edited": false
-  },
-  {
-    "name": "Asmadex",
-    "unit": "P",
-    "edited": false
-  },
-  {
-    "name": "Azithromycin",
-    "unit": "B",
-    "edited": false
-  },
-  {
     "name": "B_artmethen",
     "unit": "K",
-    "edited": false
+    "edited": true,
+    "id": "138a8216-b3c0-4c4c-86e8-a101c9d217d7"
   },
   {
     "name": "B_complen",
     "unit": "K",
-    "edited": false
+    "edited": true,
+    "id": "e5e90d0f-7043-4d6e-a6e5-4e6bb1d8b58c"
   },
   {
     "name": "B_complen",
     "unit": "R",
-    "edited": false
+    "edited": true,
+    "id": "e5e90d0f-7043-4d6e-a6e5-4e6bb1d8b58c"
   },
   {
     "name": "B-cample",
     "unit": "R",
-    "edited": false
+    "edited": true,
+    "id": "d9dff748-49f8-42e3-b723-f08f8daec397"
   },
   {
     "name": "Babamol",
     "unit": "B",
-    "edited": false
+    "edited": true,
+    "id": "b0a29d44-b281-4d32-b27e-18fab5b99196"
   },
   {
     "name": "Babamol",
     "unit": "P",
-    "edited": false
+    "edited": true,
+    "id": "b0a29d44-b281-4d32-b27e-18fab5b99196"
   },
   {
     "name": "Bandage",
     "unit": "R",
-    "edited": false
+    "edited": true,
+    "id": "c1d6b5fa-d791-41d2-8226-b74830209fc1"
   },
   {
     "name": "Bandase b.s",
@@ -107,7 +54,8 @@
   {
     "name": "Canula",
     "unit": "B",
-    "edited": false
+    "edited": true,
+    "id": "d5ca4b07-9be2-454f-9b4b-ede4da64f43e"
   },
   {
     "name": "Canulen",
@@ -132,7 +80,8 @@
   {
     "name": "Cimetadin",
     "unit": "R",
-    "edited": false
+    "edited": true,
+    "id": "9eb83c7d-df3c-4969-8af4-340c6836b052"
   },
   {
     "name": "Ciponin sim",
@@ -242,7 +191,8 @@
   {
     "name": "Doxy",
     "unit": "R",
-    "edited": false
+    "edited": true,
+    "id": "b27c0cf4-076a-42fd-844d-4354b455d605"
   },
   {
     "name": "Egluve",
