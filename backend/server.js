@@ -4,10 +4,21 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import cors from "cors";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import ValidName from "./models/ValidName.js";
+
+dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Connect to MongoDB
+mongoose
+	.connect(process.env.MONGODB_URI)
+	.then(() => console.log("Connected to MongoDB"))
+	.catch((err) => console.error("MongoDB connection error:", err));
 
 // Middleware
 app.use(cors());
@@ -33,33 +44,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// Database file paths
+// Raw medicines file path (still using file for raw medicines)
 const rawMedicinesFile = path.join(__dirname, "raw-medicines.json");
-const validNamesFile = path.join(__dirname, "valid-names.json");
-
-// Initialize valid names if it doesn't exist
-if (!fs.existsSync(validNamesFile)) {
-	fs.writeFileSync(
-		validNamesFile,
-		JSON.stringify({ validNames: [] }, null, 2)
-	);
-}
 
 // Helper: Read raw medicines
 const readRawMedicines = () => {
 	const data = fs.readFileSync(rawMedicinesFile, "utf8");
 	return JSON.parse(data);
-};
-
-// Helper: Read valid names
-const readValidNames = () => {
-	const data = fs.readFileSync(validNamesFile, "utf8");
-	return JSON.parse(data);
-};
-
-// Helper: Write valid names
-const writeValidNames = (data) => {
-	fs.writeFileSync(validNamesFile, JSON.stringify(data, null, 2));
 };
 
 // GET raw medicines (for validation screen)
@@ -73,7 +64,7 @@ app.get("/api/raw-medicines", (req, res) => {
 });
 
 // PUT validate medicine by name
-app.put("/api/raw-medicines/validate", (req, res) => {
+app.put("/api/raw-medicines/validate", async (req, res) => {
 	try {
 		const { medicineName } = req.body;
 
@@ -83,8 +74,7 @@ app.put("/api/raw-medicines/validate", (req, res) => {
 			});
 		}
 
-		// Read data
-		const validData = readValidNames();
+		// Read raw medicines
 		const rawMedicines = readRawMedicines();
 
 		// Find the medicine group to validate
@@ -99,21 +89,19 @@ app.put("/api/raw-medicines/validate", (req, res) => {
 		}
 
 		// Check if already exists in valid names
-		const exists = validData.validNames.some(
-			(vn) => vn.name.toLowerCase() === medicineName.toLowerCase()
-		);
+		const exists = await ValidName.findOne({
+			name: { $regex: new RegExp(`^${medicineName}$`, "i") },
+		});
 
 		if (!exists) {
 			// Create new valid name entry
-			const newValidName = {
-				id: Date.now().toString(),
+			await ValidName.create({
 				name: medicineName,
 				categories: [],
 				units: medicineGroup,
 				imagePath: null,
 				hasImage: false,
-			};
-			validData.validNames.push(newValidName);
+			});
 		}
 
 		// Remove raw medicines with this name
@@ -121,17 +109,19 @@ app.put("/api/raw-medicines/validate", (req, res) => {
 			(m) => m.name !== medicineName
 		);
 
-		// Save both files
+		// Save raw medicines file
 		fs.writeFileSync(
 			rawMedicinesFile,
 			JSON.stringify(updatedMedicines, null, 2)
 		);
-		writeValidNames(validData);
+
+		// Get all valid names from database
+		const validNames = await ValidName.find();
 
 		res.json({
 			message: "Medicine validated successfully",
 			rawMedicines: updatedMedicines,
-			validNames: validData.validNames,
+			validNames: validNames,
 		});
 	} catch (error) {
 		console.error("Validation error:", error);
@@ -140,7 +130,7 @@ app.put("/api/raw-medicines/validate", (req, res) => {
 });
 
 // POST validate and remove raw medicines (single endpoint)
-app.post("/api/raw-medicines/validate", (req, res) => {
+app.post("/api/raw-medicines/validate", async (req, res) => {
 	try {
 		const { medicineName, medicines } = req.body;
 
@@ -149,9 +139,6 @@ app.post("/api/raw-medicines/validate", (req, res) => {
 				error: "medicineName and medicines are required",
 			});
 		}
-
-		// Get valid names data
-		const data = readValidNames();
 
 		// Find the medicine group to validate
 		const medicineGroup = medicines
@@ -165,21 +152,19 @@ app.post("/api/raw-medicines/validate", (req, res) => {
 		}
 
 		// Check if already exists in valid names
-		const exists = data.validNames.some(
-			(vn) => vn.name.toLowerCase() === medicineName.toLowerCase()
-		);
+		const exists = await ValidName.findOne({
+			name: { $regex: new RegExp(`^${medicineName}$`, "i") },
+		});
 
 		if (!exists) {
 			// Create new valid name entry
-			const newValidName = {
-				id: Date.now().toString(),
+			await ValidName.create({
 				name: medicineName,
 				categories: [],
 				units: medicineGroup,
 				imagePath: null,
 				hasImage: false,
-			};
-			data.validNames.push(newValidName);
+			});
 		}
 
 		// Remove raw medicines with this name
@@ -187,17 +172,19 @@ app.post("/api/raw-medicines/validate", (req, res) => {
 			(m) => m.name !== medicineName
 		);
 
-		// Save both files
+		// Save raw medicines file
 		fs.writeFileSync(
 			rawMedicinesFile,
 			JSON.stringify(updatedMedicines, null, 2)
 		);
-		writeValidNames(data);
+
+		// Get all valid names from database
+		const validNames = await ValidName.find();
 
 		res.json({
 			message: "Medicine validated and removed from raw medicines",
 			rawMedicines: updatedMedicines,
-			validNames: data.validNames,
+			validNames: validNames,
 		});
 	} catch (error) {
 		console.error("Validation error:", error);
@@ -206,53 +193,51 @@ app.post("/api/raw-medicines/validate", (req, res) => {
 });
 
 // GET all valid names
-app.get("/api/valid-names", (req, res) => {
+app.get("/api/valid-names", async (req, res) => {
 	try {
-		const data = readValidNames();
-		res.json(data.validNames);
+		const validNames = await ValidName.find();
+		res.json(validNames);
 	} catch (error) {
 		res.status(500).json({ error: "Failed to read valid names" });
 	}
 });
 
 // POST add valid name
-app.post("/api/valid-names", (req, res) => {
+app.post("/api/valid-names", async (req, res) => {
 	try {
 		const { name, units } = req.body;
 		if (!name || !name.trim()) {
 			return res.status(400).json({ error: "Name is required" });
 		}
 
-		const data = readValidNames();
-		const exists = data.validNames.some(
-			(vn) => vn.name.toLowerCase() === name.toLowerCase()
-		);
+		// Check if already exists
+		const exists = await ValidName.findOne({
+			name: { $regex: new RegExp(`^${name.trim()}$`, "i") },
+		});
+
 		if (exists) {
 			return res.status(400).json({ error: "Name already exists" });
 		}
 
-		const newValidName = {
-			id: Date.now().toString(),
+		const newValidName = await ValidName.create({
 			name: name.trim(),
 			categories: [],
 			units: units || [],
 			imagePath: null,
 			hasImage: false,
-		};
+		});
 
-		data.validNames.push(newValidName);
-		writeValidNames(data);
 		res.status(201).json(newValidName);
 	} catch (error) {
 		res.status(500).json({ error: "Failed to add valid name" });
 	}
 });
 
-app.put("/api/valid-names/:id", (req, res) => {
+// PUT update valid name
+app.put("/api/valid-names/:id", async (req, res) => {
 	try {
 		const { categories, units, name } = req.body;
-		const data = readValidNames();
-		const validName = data.validNames.find((vn) => vn.id === req.params.id);
+		const validName = await ValidName.findById(req.params.id);
 
 		if (!validName) {
 			return res.status(404).json({ error: "Valid name not found" });
@@ -260,11 +245,10 @@ app.put("/api/valid-names/:id", (req, res) => {
 
 		// If updating name, ensure uniqueness
 		if (name && name.trim()) {
-			const exists = data.validNames.some(
-				(vn) =>
-					vn.name.toLowerCase() === name.toLowerCase() &&
-					vn.id !== req.params.id
-			);
+			const exists = await ValidName.findOne({
+				name: { $regex: new RegExp(`^${name.trim()}$`, "i") },
+				_id: { $ne: req.params.id },
+			});
 			if (exists) {
 				return res.status(400).json({ error: "Name already exists" });
 			}
@@ -274,7 +258,7 @@ app.put("/api/valid-names/:id", (req, res) => {
 		if (categories) validName.categories = categories;
 		if (units) validName.units = units;
 
-		writeValidNames(data);
+		await validName.save();
 		res.json(validName);
 	} catch (error) {
 		res.status(500).json({ error: "Failed to update valid name" });
@@ -282,10 +266,9 @@ app.put("/api/valid-names/:id", (req, res) => {
 });
 
 // DELETE valid name
-app.delete("/api/valid-names/:id", (req, res) => {
+app.delete("/api/valid-names/:id", async (req, res) => {
 	try {
-		const data = readValidNames();
-		const validName = data.validNames.find((vn) => vn.id === req.params.id);
+		const validName = await ValidName.findById(req.params.id);
 
 		if (!validName) {
 			return res.status(404).json({ error: "Valid name not found" });
@@ -299,10 +282,7 @@ app.delete("/api/valid-names/:id", (req, res) => {
 			}
 		}
 
-		data.validNames = data.validNames.filter(
-			(vn) => vn.id !== req.params.id
-		);
-		writeValidNames(data);
+		await ValidName.findByIdAndDelete(req.params.id);
 		res.json({ message: "Valid name deleted" });
 	} catch (error) {
 		res.status(500).json({ error: "Failed to delete valid name" });
@@ -310,82 +290,86 @@ app.delete("/api/valid-names/:id", (req, res) => {
 });
 
 // POST upload image for valid name
-app.post("/api/valid-names/:id/upload", upload.single("image"), (req, res) => {
-	try {
-		if (!req.file) {
-			return res.status(400).json({ error: "No image provided" });
-		}
-
-		const data = readValidNames();
-		const validName = data.validNames.find((vn) => vn.id === req.params.id);
-
-		if (!validName) {
-			return res.status(404).json({ error: "Valid name not found" });
-		}
-
-		// Delete old image if exists
-		if (validName.imagePath) {
-			const oldImagePath = path.join(__dirname, validName.imagePath);
-			if (fs.existsSync(oldImagePath)) {
-				fs.unlinkSync(oldImagePath);
+app.post(
+	"/api/valid-names/:id/upload",
+	upload.single("image"),
+	async (req, res) => {
+		try {
+			if (!req.file) {
+				return res.status(400).json({ error: "No image provided" });
 			}
+
+			const validName = await ValidName.findById(req.params.id);
+
+			if (!validName) {
+				return res.status(404).json({ error: "Valid name not found" });
+			}
+
+			// Delete old image if exists
+			if (validName.imagePath) {
+				const oldImagePath = path.join(__dirname, validName.imagePath);
+				if (fs.existsSync(oldImagePath)) {
+					fs.unlinkSync(oldImagePath);
+				}
+			}
+
+			validName.imagePath = `/uploads/medicines/${req.file.filename}`;
+			validName.hasImage = true;
+
+			await validName.save();
+			res.json(validName);
+		} catch (error) {
+			res.status(500).json({ error: "Failed to upload image" });
 		}
-
-		validName.imagePath = `/uploads/medicines/${req.file.filename}`;
-		validName.hasImage = true;
-
-		writeValidNames(data);
-		res.json(validName);
-	} catch (error) {
-		res.status(500).json({ error: "Failed to upload image" });
 	}
-});
+);
 
 // PUT update raw medicines
-app.put("/api/raw-medicines", (req, res) => {
+app.put("/api/raw-medicines", async (req, res) => {
 	try {
 		const updatedMedicines = req.body;
-		const data = readValidNames();
 
 		// Process edited medicines - add them to valid-names
-		updatedMedicines.forEach((medicine) => {
+		for (const medicine of updatedMedicines) {
 			if (medicine.edited === true) {
 				// Check if this edited name already exists in valid names
-				const exists = data.validNames.some(
-					(vn) =>
-						vn.name.toLowerCase() === medicine.name.toLowerCase()
-				);
+				const exists = await ValidName.findOne({
+					name: {
+						$regex: new RegExp(`^${medicine.name}$`, "i"),
+					},
+				});
 
 				if (!exists) {
 					// Create new valid name entry
-					const newValidName = {
-						id: Date.now().toString(),
+					await ValidName.create({
 						name: medicine.name,
 						categories: [],
 						units: medicine.unit ? [medicine.unit] : [],
 						imagePath: null,
 						hasImage: false,
-					};
-					data.validNames.push(newValidName);
+					});
 				}
 			}
-		});
+		}
 
-		// Save both files
+		// Save raw medicines file
 		fs.writeFileSync(
 			rawMedicinesFile,
 			JSON.stringify(updatedMedicines, null, 2)
 		);
-		writeValidNames(data);
+
+		// Get all valid names from database
+		const validNames = await ValidName.find();
 
 		res.json({
 			message: "Raw medicines updated successfully",
-			validNames: data.validNames,
+			validNames: validNames,
 		});
 	} catch (error) {
 		res.status(500).json({ error: "Failed to update raw medicines" });
 	}
 });
+
 // Serve frontend (production)
 const frontendDistPath = path.join(__dirname, "../frontend/dist");
 app.use(express.static(frontendDistPath));
@@ -393,6 +377,7 @@ app.use(express.static(frontendDistPath));
 app.get("*", (req, res) => {
 	res.sendFile(path.join(frontendDistPath, "index.html"));
 });
+
 // Start server
 app.listen(PORT, () => {
 	console.log(`Server running at http://localhost:${PORT}`);
