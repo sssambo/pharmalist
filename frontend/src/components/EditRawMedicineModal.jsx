@@ -22,11 +22,18 @@ function EditRawMedicineModal({ open, medicine, onSave, onClose }) {
 			.split(",")
 			.map((u) => u.trim())
 			.filter(Boolean);
+
+		const trimmedNewName = name.trim();
+
 		onSave({
-			originalName: medicine.name,
-			newName: name.trim(),
+			oldname: medicine.name,
+			newname:
+				trimmedNewName.toLowerCase() !== medicine.name.toLowerCase()
+					? trimmedNewName
+					: undefined, // 👈 important
 			units: unitsArray,
 		});
+
 		onClose();
 	};
 
