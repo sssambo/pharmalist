@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://pharmalist.onrender.com";
-// const API_BASE_URL = "http://127.0.0.1:5000";
+// const API_BASE_URL = "https://pharmalist.onrender.com";
+const API_BASE_URL = "http://127.0.0.1:5000";
 const api = axios.create({
 	baseURL: API_BASE_URL,
 	headers: {
@@ -24,12 +24,11 @@ export const categoriesAPI = {
 	delete: (id) => api.delete(`/api/categories/${id}`),
 };
 
-// Raw Medicines API
+// Raw Medicines APIa
 export const rawMedicinesAPI = {
 	getAll: () => api.get("/api/raw-medicines"),
-	updateAll: (medicines) => api.put("/api/raw-medicines", medicines),
-	validateMedicine: (medicineName) =>
-		api.put("/api/raw-medicines/validate", { medicineName }),
+	validateMedicine: (medicineattributes) =>
+		api.put("/api/raw-medicines/validate", { medicineattributes }),
 };
 
 // Image Upload API

@@ -15,7 +15,7 @@ const UNIT_MAP = { B: "Box", P: "Pack", R: "Roll", K: "Carton", TIN: "Tin" };
 function App() {
 	const [validNames, setValidNames] = useState([]);
 	const [rawMedicines, setRawMedicines] = useState([]);
-	const [step, setStep] = useState("list"); // list, validated, unvalidated, manage_categories
+	const [step, setStep] = useState("list");
 	const [editingName, setEditingName] = useState(null);
 	const [editingRawMedicine, setEditingRawMedicine] = useState(null);
 	const [editingValidName, setEditingValidName] = useState(null);
@@ -67,33 +67,30 @@ function App() {
 	};
 
 	// Save edited raw medicine (from modal)
-	const handleSaveEditedRawMedicine = async ({
-		originalName,
-		newName,
-		units,
-	}) => {
+	const handleSaveEditedRawMedicine = async ({ oldname, newname, units }) => {
 		try {
-			// Update all raw entries that matched the original name
-			const updatedRawMedicines = rawMedicines.map((m) => {
-				if (m.name === originalName) {
-					return {
-						...m,
-						name: newName,
-						unit: units && units.length > 0 ? units[0] : m.unit,
-						edited: true,
-					};
-				}
-				return m;
+			const response = await rawMedicinesAPI.validateMedicine({
+				oldname,
+				newname,
+				units,
 			});
-			setRawMedicines(updatedRawMedicines);
-			const response = await rawMedicinesAPI.updateAll(
-				updatedRawMedicines
+
+			const { validName } = response.data;
+
+			// Remove validated raw medicine from state
+			setRawMedicines((prev) =>
+				prev.filter(
+					(m) => m.name.toLowerCase() !== oldname.toLowerCase()
+				)
 			);
 
-			// If backend returned validNames, update the state
-			if (response.data.validNames) {
-				setValidNames(response.data.validNames);
-			}
+			// Append new valid name safely
+			setValidNames((prev) => {
+				const exists = prev.some(
+					(v) => v.name.toLowerCase() === validName.name.toLowerCase()
+				);
+				return exists ? prev : [...prev, validName];
+			});
 		} catch (error) {
 			console.error("Failed to save edited raw medicine:", error);
 		}
@@ -115,16 +112,27 @@ function App() {
 		}
 	};
 
-	// Validate a grouped medicine (move to valid names and remove raw entries)
+	// Validate a medicine (move to valid names and modify raw entries)
 	const handleValidateMedicine = async (medicine) => {
 		try {
-			const response = await rawMedicinesAPI.validateMedicine(
-				medicine.name
-			);
+			const response = await rawMedicinesAPI.validateMedicine({
+				oldname: medicine.name,
+			});
 
-			// Update both states with response from backend
-			setRawMedicines(response.data.rawMedicines);
-			setValidNames(response.data.validNames);
+			const { validName } = response.data;
+
+			// Remove validated raw medicine
+			setRawMedicines((prev) =>
+				prev.filter(
+					(m) => m.name.toLowerCase() !== medicine.name.toLowerCase()
+				)
+			);
+			setValidNames((prev) => {
+				const exists = prev.some(
+					(v) => v.name.toLowerCase() === validName.name.toLowerCase()
+				);
+				return exists ? prev : [...prev, validName];
+			});
 		} catch (error) {
 			console.error("Failed to validate medicine:", error);
 		}

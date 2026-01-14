@@ -6,7 +6,6 @@ import { fileURLToPath } from "url";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import { v4 as uuidv4 } from "uuid";
 import ValidName from "./models/ValidName.js";
 import Category from "./models/Category.js";
 
@@ -47,7 +46,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Raw medicines file path (still using file for raw medicines)
-const rawMedicinesFile = path.join(__dirname, "raw-medicines.json");
+const rawMedicinesFile = path.join(__dirname, "rawnew.json");
 
 // Helper: Read raw medicines
 const readRawMedicines = () => {
@@ -57,6 +56,7 @@ const readRawMedicines = () => {
 
 // GET raw medicines (for validation screen)
 app.get("/api/raw-medicines", (req, res) => {
+	console.log("GET /api/raw-medicines - req.body:", req.body);
 	try {
 		const medicines = readRawMedicines();
 		res.json(medicines);
@@ -67,141 +67,84 @@ app.get("/api/raw-medicines", (req, res) => {
 
 // PUT validate medicine by name
 app.put("/api/raw-medicines/validate", async (req, res) => {
-	try {
-		const { medicineName } = req.body;
+	console.log("PUT /api/raw-medicines/validate - req.body:", req.body);
 
-		if (!medicineName) {
-			return res.status(400).json({
-				error: "medicineName is required",
-			});
+	try {
+		const { oldname, newname, units = [] } = req.body.medicineattributes;
+
+		if (!oldname) {
+			return res.status(400).json({ error: "oldname is required" });
 		}
 
 		// Read raw medicines
 		const rawMedicines = readRawMedicines();
 
-		// Find the medicine group to validate (case-insensitive)
-		const medicineGroup = rawMedicines
-			.filter((m) => m.name.toLowerCase() === medicineName.toLowerCase())
-			.map((m) => m.unit);
+		// Find raw medicine (case-insensitive)
+		const rawMedicine = rawMedicines.find(
+			(m) => m.name.toLowerCase() === oldname.toLowerCase()
+		);
 
-		if (medicineGroup.length === 0) {
+		if (!rawMedicine) {
 			return res.status(400).json({
 				error: "Medicine not found in raw medicines",
 			});
 		}
 
-		// Generate ID for this medicine
-		const medicineId = uuidv4();
-
-		// Update raw medicines with id and edited flag
-		const updatedMedicines = rawMedicines.map((m) => {
-			if (m.name.toLowerCase() === medicineName.toLowerCase()) {
-				return {
-					...m,
-					id: medicineId,
-					edited: true,
-				};
-			}
-			return m;
-		});
-
-		// Save updated raw medicines file
-		fs.writeFileSync(
-			rawMedicinesFile,
-			JSON.stringify(updatedMedicines, null, 2)
-		);
-
-		// Check if already exists in valid names
-		const exists = await ValidName.findOne({
-			name: { $regex: new RegExp(`^${medicineName}$`, "i") },
-		});
-
-		let newValidName;
-		if (!exists) {
-			// Create new valid name entry
-			newValidName = await ValidName.create({
-				name: medicineName,
-				categories: [],
-				units: medicineGroup,
-				imagePath: null,
-				hasImage: false,
+		// ❌ Prevent double validation
+		if (rawMedicine.edited == true) {
+			return res.status(409).json({
+				error: "This raw medicine has already been validated",
 			});
 		}
 
-		// Get all valid names from database with their IDs
-		const validNames = await ValidName.find().select(
-			"_id name units categories imagePath hasImage"
+		// Merge unique units
+		const existingUnits = Array.isArray(rawMedicine.units)
+			? rawMedicine.units
+			: [];
+
+		const mergedUnits = [...new Set([...existingUnits, ...units])];
+
+		// Update raw medicine
+		rawMedicine.units = mergedUnits;
+		rawMedicine.edited = true;
+
+		if (newname) {
+			rawMedicine.correctedname = newname;
+		}
+
+		// Save back to rawnew.json
+		fs.writeFileSync(
+			rawMedicinesFile,
+			JSON.stringify(rawMedicines, null, 2)
 		);
 
+		// Determine valid name value
+		const validNameValue = newname || oldname;
+
+		// Prevent duplicate valid names
+		const existingValidName = await ValidName.findOne({
+			name: { $regex: new RegExp(`^${validNameValue}$`, "i") },
+		});
+
+		if (existingValidName) {
+			return res.status(409).json({
+				error: "Valid name already exists",
+			});
+		}
+
+		// Create new valid name
+		const newValidName = await ValidName.create({
+			name: validNameValue,
+			categories: [],
+			units: mergedUnits,
+			imagePath: null,
+			hasImage: false,
+		});
+
+		// ✅ Respond ONLY with the added valid name
 		res.json({
 			message: "Medicine validated successfully",
-			medicineId: medicineId,
-			rawMedicines: updatedMedicines,
-			validNames: validNames,
-		});
-	} catch (error) {
-		console.error("Validation error:", error);
-		res.status(500).json({ error: "Failed to validate medicine" });
-	}
-});
-
-// POST validate and remove raw medicines (single endpoint)
-app.post("/api/raw-medicines/validate", async (req, res) => {
-	console.log("Received validate request:", req.body);
-	try {
-		const { medicineName, medicines } = req.body;
-
-		if (!medicineName || !medicines) {
-			return res.status(400).json({
-				error: "medicineName and medicines are required",
-			});
-		}
-
-		// Find the medicine group to validate (case-insensitive)
-		const medicineGroup = medicines
-			.filter((m) => m.name.toLowerCase() === medicineName.toLowerCase())
-			.map((m) => m.unit);
-
-		if (medicineGroup.length === 0) {
-			return res.status(400).json({
-				error: "Medicine not found",
-			});
-		}
-
-		// Check if already exists in valid names
-		const exists = await ValidName.findOne({
-			name: { $regex: new RegExp(`^${medicineName}$`, "i") },
-		});
-
-		if (!exists) {
-			// Create new valid name entry
-			await ValidName.create({
-				name: medicineName,
-				categories: [],
-				units: medicineGroup,
-				imagePath: null,
-				hasImage: false,
-			});
-		}
-
-		// Remove raw medicines with this name (case-insensitive)
-		const updatedMedicines = medicines.filter(
-			(m) => m.name.toLowerCase() !== medicineName.toLowerCase()
-		);
-
-		// Save raw medicines file
-		fs.writeFileSync(
-			rawMedicinesFile,
-			JSON.stringify(updatedMedicines, null, 2)
-		);
-
-		// Get all valid names from database
-		const validNames = await ValidName.find();
-
-		res.json({
-			message: "Medicine validated and removed from raw medicines",
-			rawMedicines: updatedMedicines,
-			validNames: validNames,
+			validName: newValidName,
 		});
 	} catch (error) {
 		console.error("Validation error:", error);
@@ -211,6 +154,7 @@ app.post("/api/raw-medicines/validate", async (req, res) => {
 
 // GET all valid names
 app.get("/api/valid-names", async (req, res) => {
+	console.log("GET /api/valid-names - req.body:", req.body);
 	try {
 		const validNames = await ValidName.find().populate("categories");
 		res.json(validNames);
@@ -219,39 +163,9 @@ app.get("/api/valid-names", async (req, res) => {
 	}
 });
 
-// POST add valid name
-app.post("/api/valid-names", async (req, res) => {
-	try {
-		const { name, units } = req.body;
-		if (!name || !name.trim()) {
-			return res.status(400).json({ error: "Name is required" });
-		}
-
-		// Check if already exists
-		const exists = await ValidName.findOne({
-			name: { $regex: new RegExp(`^${name.trim()}$`, "i") },
-		});
-
-		if (exists) {
-			return res.status(400).json({ error: "Name already exists" });
-		}
-
-		const newValidName = await ValidName.create({
-			name: name.trim(),
-			categories: [],
-			units: units || [],
-			imagePath: null,
-			hasImage: false,
-		});
-
-		res.status(201).json(newValidName);
-	} catch (error) {
-		res.status(500).json({ error: "Failed to add valid name" });
-	}
-});
-
 // PUT update valid name
 app.put("/api/valid-names/:id", async (req, res) => {
+	console.log("PUT /api/valid-names/:id - req.body:", req.body);
 	try {
 		const { categories, units, name } = req.body;
 		const validName = await ValidName.findById(req.params.id);
@@ -289,6 +203,7 @@ app.put("/api/valid-names/:id", async (req, res) => {
 
 // DELETE valid name
 app.delete("/api/valid-names/:id", async (req, res) => {
+	console.log("DELETE /api/valid-names/:id - req.body:", req.body);
 	try {
 		const validName = await ValidName.findById(req.params.id);
 
@@ -316,6 +231,7 @@ app.post(
 	"/api/valid-names/:id/upload",
 	upload.single("image"),
 	async (req, res) => {
+		console.log("POST /api/valid-names/:id/upload - req.body:", req.body);
 		try {
 			if (!req.file) {
 				return res.status(400).json({ error: "No image provided" });
@@ -346,54 +262,9 @@ app.post(
 	}
 );
 
-// PUT update raw medicines
-app.put("/api/raw-medicines", async (req, res) => {
-	try {
-		const updatedMedicines = req.body;
-
-		// Process edited medicines - add them to valid-names
-		for (const medicine of updatedMedicines) {
-			if (medicine.edited === true) {
-				// Check if this edited name already exists in valid names
-				const exists = await ValidName.findOne({
-					name: {
-						$regex: new RegExp(`^${medicine.name}$`, "i"),
-					},
-				});
-
-				if (!exists) {
-					// Create new valid name entry
-					await ValidName.create({
-						name: medicine.name,
-						categories: [],
-						units: medicine.unit ? [medicine.unit] : [],
-						imagePath: null,
-						hasImage: false,
-					});
-				}
-			}
-		}
-
-		// Save raw medicines file
-		fs.writeFileSync(
-			rawMedicinesFile,
-			JSON.stringify(updatedMedicines, null, 2)
-		);
-
-		// Get all valid names from database
-		const validNames = await ValidName.find();
-
-		res.json({
-			message: "Raw medicines updated successfully",
-			validNames: validNames,
-		});
-	} catch (error) {
-		res.status(500).json({ error: "Failed to update raw medicines" });
-	}
-});
-
 // GET all categories
 app.get("/api/categories", async (req, res) => {
+	console.log("GET /api/categories - req.body:", req.body);
 	try {
 		const categories = await Category.find().sort({ name: 1 });
 		res.json(categories);
@@ -404,6 +275,7 @@ app.get("/api/categories", async (req, res) => {
 
 // POST add new category
 app.post("/api/categories", async (req, res) => {
+	console.log("POST /api/categories - req.body:", req.body);
 	try {
 		const { name, color } = req.body;
 
@@ -433,6 +305,7 @@ app.post("/api/categories", async (req, res) => {
 
 // DELETE category
 app.delete("/api/categories/:id", async (req, res) => {
+	console.log("DELETE /api/categories/:id - req.body:", req.body);
 	try {
 		const category = await Category.findById(req.params.id);
 
