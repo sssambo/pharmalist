@@ -1,0 +1,929 @@
+[
+  {
+    "name": "ACT x4",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "ACT x6",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "ACT",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Actifed",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Albendazole",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Amini",
+    "units": [
+      "P"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Amlodipine",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Amoxicillin",
+    "units": [
+      "K",
+      "R",
+      "P"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Ampicillin",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Ampiclox",
+    "units": [
+      "K"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Anti-diarrhea",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Augmentin 375",
+    "units": [
+      "P"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Augmentin 625",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Augmentin 12",
+    "units": [
+      "P"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Artesunate 120",
+    "units": [
+      "P"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Artesunate 60",
+    "units": [
+      "S"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Artesunate",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Asmadex",
+    "units": [
+      "P"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Asmand",
+    "units": [
+      "T"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Avomine",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Azithromycin",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Artemether",
+    "units": [
+      "K"
+    ],
+    "edited": false
+  },
+  {
+    "name": "B-Complex",
+    "units": [
+      "K",
+      "R",
+      "B",
+      "T"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Paracetamol",
+    "units": [
+      "R",
+      "P",
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Bandage",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Bandage B.S",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Baralgin",
+    "units": [
+      "P"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Blood Tonic B.S",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Cold Syrup",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Blood Tonic Syrup",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Boska",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Boska Syrup",
+    "units": [
+      "P"
+    ],
+    "edited": false
+  },
+  {
+    "name": "C C Amp",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Vitamin C + E",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Cannula",
+    "units": [
+      "R",
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Cannula",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Cough Care",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "CE Extra",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Ceftriaxone",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Chlorpheniramine",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Cimetidine 200",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Cimetidine",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Ciprofloxacin",
+    "units": [
+      "K"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Codolin",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Cofoff",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Cold Free",
+    "units": [
+      "P"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Cold Time Syrup",
+    "units": [
+      "K",
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Corticosteroid Injection",
+    "units": [
+      "R",
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Cough (Children)",
+    "units": [
+      "R",
+      "K"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Cough",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "CQ Extra",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "CQ",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Cristolin (Children)",
+    "units": [
+      "K"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Cypre",
+    "units": [
+      "P"
+    ],
+    "edited": false
+  },
+  {
+    "name": "D/S",
+    "units": [
+      "K"
+    ],
+    "edited": false
+  },
+  {
+    "name": "D/S 500",
+    "units": [
+      "K"
+    ],
+    "edited": false
+  },
+  {
+    "name": "ORS + Zinc",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Dexamethasone",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Diclofenac",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Diclofenac 50",
+    "units": [
+      "K",
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Diclofenac 100",
+    "units": [
+      "P"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Diclofenac Injection",
+    "units": [
+      "P",
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Doxycycline",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Egluve",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Egluve",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Entapen",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Erythromycin",
+    "units": [
+      "K",
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Estomal",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Feldene",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Festen",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Flagyl",
+    "units": [
+      "R",
+      "T"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Flasil",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Flastue",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Folic Acid",
+    "units": [
+      "T"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Furosemide",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Gentamicin",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Gestid",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Glucose 5%",
+    "units": [
+      "P"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Gripe Water",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Hyoscine",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Ibuprofen",
+    "units": [
+      "R",
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Ibuprofen 400",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Jadayelo",
+    "units": [
+      "P"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Kafilara",
+    "units": [
+      "P",
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Kaimoral",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Kaira Cough Adult",
+    "units": [
+      "K",
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Kairacid",
+    "units": [
+      "K"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Kairakid",
+    "units": [
+      "K"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Katilara",
+    "units": [
+      "P"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Kattafed",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Kisacid",
+    "units": [
+      "K"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Komex",
+    "units": [
+      "B",
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Kontes",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Krakid",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Krisacid",
+    "units": [
+      "B",
+      "K"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Kristed",
+    "units": [
+      "K"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Kristohin",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Kristolin",
+    "units": [
+      "K"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Levofloxacin",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Limphacin",
+    "units": [
+      "P"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Liquid Paraffin",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Mebendazole",
+    "units": [
+      "P"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Menagrin",
+    "units": [
+      "P"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Metronidazole",
+    "units": [
+      "K",
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Mexa Grip",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Multivitamin",
+    "units": [
+      "P",
+      "B",
+      "R",
+      "T"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Nystatin",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Normal Saline 500",
+    "units": [
+      "K"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Needle",
+    "units": [
+      "P"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Nobalgin",
+    "units": [
+      "P"
+    ],
+    "edited": false
+  },
+  {
+    "name": "ORS",
+    "units": [
+      "P"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Ofloxacin 400",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Omeprazole",
+    "units": [
+      "B",
+      "R",
+      "P"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Oxytocin",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Paracetamol",
+    "units": [
+      "R",
+      "B",
+      "P",
+      "K",
+      "T"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Prednisolone",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Procold",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Promethazine",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Quinine",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Ringer Lactate 500",
+    "units": [
+      "K"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Saptrin 960",
+    "units": [
+      "R",
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Surgical Glove",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Syringe",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Sudren",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Tagamet 200",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Vitamin C",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Wontac",
+    "units": [
+      "B"
+    ],
+    "edited": false
+  },
+  {
+    "name": "Zapa",
+    "units": [
+      "R"
+    ],
+    "edited": false
+  }
+]

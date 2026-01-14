@@ -46,7 +46,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Raw medicines file path (still using file for raw medicines)
-const rawMedicinesFile = path.join(__dirname, "rawnew.json");
+const rawMedicinesFile = path.join(__dirname, "raw.json");
 
 // Helper: Read raw medicines
 const readRawMedicines = () => {
@@ -227,7 +227,7 @@ app.delete("/api/valid-names/:id", async (req, res) => {
 });
 
 // POST upload image for valid name
-app.post(
+app.put(
 	"/api/valid-names/:id/upload",
 	upload.single("image"),
 	async (req, res) => {

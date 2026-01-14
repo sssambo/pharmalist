@@ -7,7 +7,7 @@ import EditRawMedicineModal from "./components/EditRawMedicineModal";
 import ValidatedNamesView from "./components/ValidatedNamesView";
 import EditValidNameModal from "./components/EditValidNameModal";
 import ManageCategoriesModal from "./components/ManageCategoriesModal";
-import { validNamesAPI, rawMedicinesAPI } from "./api";
+import { validNamesAPI, rawMedicinesAPI, categoriesAPI } from "./api";
 import "./App.css";
 
 const UNIT_MAP = { B: "Box", P: "Pack", R: "Roll", K: "Carton", TIN: "Tin" };
@@ -15,12 +15,18 @@ const UNIT_MAP = { B: "Box", P: "Pack", R: "Roll", K: "Carton", TIN: "Tin" };
 function App() {
 	const [validNames, setValidNames] = useState([]);
 	const [rawMedicines, setRawMedicines] = useState([]);
-	const [step, setStep] = useState("list");
+	const [categories, setCategories] = useState([]);
+	const [step, setStep] = useState("unvalidated");
 	const [editingName, setEditingName] = useState(null);
 	const [editingRawMedicine, setEditingRawMedicine] = useState(null);
 	const [editingValidName, setEditingValidName] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [manageCategoriesOpen, setManageCategoriesOpen] = useState(false);
+	const [deleteModal, setDeleteModal] = useState({
+		isOpen: false,
+		medicineId: null,
+		medicineName: "",
+	});
 
 	// derived: unvalidated grouped names
 	const unvalidatedByName = () => {
@@ -44,25 +50,18 @@ function App() {
 	const fetchData = async () => {
 		try {
 			setLoading(true);
-			const [validRes, rawRes] = await Promise.all([
+			const [validRes, rawRes, categoriesRes] = await Promise.all([
 				validNamesAPI.getAll(),
 				rawMedicinesAPI.getAll(),
+				categoriesAPI.getAll(),
 			]);
 			setValidNames(validRes.data);
 			setRawMedicines(rawRes.data);
+			setCategories(categoriesRes.data);
 		} catch (error) {
 			console.error("Failed to fetch data:", error);
 		} finally {
 			setLoading(false);
-		}
-	};
-
-	const handleAddValidName = async (name, units) => {
-		try {
-			const response = await validNamesAPI.create(name, units);
-			setValidNames([...validNames, response.data]);
-		} catch (error) {
-			console.error("Failed to add valid name:", error);
 		}
 	};
 
@@ -153,14 +152,29 @@ function App() {
 	};
 
 	const handleDeleteName = async (id) => {
-		if (window.confirm("Delete this medicine name?")) {
-			try {
-				await validNamesAPI.delete(id);
-				setValidNames(validNames.filter((vn) => vn.id !== id));
-			} catch (error) {
-				console.error("Failed to delete:", error);
-			}
+		try {
+			await validNamesAPI.delete(id);
+			setValidNames(validNames.filter((vn) => vn.id !== id));
+			setDeleteModal({ isOpen: false, medicineId: null, medicineName: "" });
+		} catch (error) {
+			console.error("Failed to delete:", error);
 		}
+	};
+
+	const handleDeleteClick = (medicineId, medicineName) => {
+		setDeleteModal({
+			isOpen: true,
+			medicineId,
+			medicineName,
+		});
+	};
+
+	const handleConfirmDelete = () => {
+		handleDeleteName(deleteModal.medicineId);
+	};
+
+	const handleCancelDelete = () => {
+		setDeleteModal({ isOpen: false, medicineId: null, medicineName: "" });
 	};
 
 	const handleCategoriesUpdate = async () => {
@@ -178,6 +192,12 @@ function App() {
 				<h1>Pharmacy Medicine Manager</h1>
 				<div className="header-buttons">
 					<button
+						className={`nav-btn ${step === "unvalidated" ? "active" : ""}`}
+						onClick={() => setStep("unvalidated")}
+					>
+						Unvalidated ({unvalidatedByName().length})
+					</button>
+					<button
 						className={`nav-btn ${step === "list" ? "active" : ""}`}
 						onClick={() => setStep("list")}
 					>
@@ -190,12 +210,6 @@ function App() {
 						onClick={() => setStep("validated")}
 					>
 						Validate Names
-					</button>
-					<button
-						className="unvalidated-btn"
-						onClick={() => setStep("unvalidated")}
-					>
-						{unvalidatedByName().length} unvalidated
 					</button>
 					<button
 						className={`nav-btn ${
@@ -275,11 +289,13 @@ function App() {
 			) : (
 				<MedicineList
 					medicines={validNames}
-					onEdit={(name) => {
-						setEditingName(name);
-						setStep("list");
-					}}
+					categories={categories}
+					onEdit={setEditingValidName}
 					onDelete={handleDeleteName}
+					deleteModal={deleteModal}
+					onDeleteClick={handleDeleteClick}
+					onConfirmDelete={handleConfirmDelete}
+					onCancelDelete={handleCancelDelete}
 				/>
 			)}
 		</div>

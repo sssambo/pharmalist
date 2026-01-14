@@ -10,3 +10,7 @@ build/
 package-lock.json
 /frontend/*lock.json*
 /backend/*lock.json*
+invemtory1.txt
+invemtorymix.txt
+"rawnew copy.json"
+"backend\rawnew copy.json"

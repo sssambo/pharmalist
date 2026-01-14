@@ -101,33 +101,50 @@
 }
 
 .btn-edit,
-.btn-delete {
-  flex: 1;
-  padding: 8px 12px;
-  font-size: 13px;
-  font-weight: 600;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s;
-  border: none;
+.btn-delete,
+.btn-upload {
+	flex: 1;
+	padding: 8px 12px;
+	font-size: 13px;
+	font-weight: 600;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: all 0.2s;
+	border: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+}
+
+.btn-upload {
+	background: var(--primary);
+	color: white;
+}
+
+.btn-upload:hover {
+	background: var(--primary-dark);
+	box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
 .btn-edit {
-  background: var(--secondary);
-  color: white;
+	background: var(--secondary);
+	color: white;
 }
 
 .btn-edit:hover {
-  background: #2563eb;
+	background: #2563eb;
+	box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
 .btn-delete {
-  background: var(--error);
-  color: white;
+	background: var(--error);
+	color: white;
 }
 
 .btn-delete:hover {
-  background: #dc2626;
+	background: #dc2626;
+	box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
 .empty-state {

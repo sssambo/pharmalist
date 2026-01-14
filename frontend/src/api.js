@@ -36,11 +36,16 @@ export const imageAPI = {
 	upload: (medicineId, file) => {
 		const formData = new FormData();
 		formData.append("image", file);
-		return api.post(`/api/valid-names/${medicineId}/upload`, formData, {
+		return api.put(`/api/valid-names/${medicineId}/upload`, formData, {
 			headers: {
 				"Content-Type": "multipart/form-data",
 			},
 		});
+	},
+	getImageUrl: (imagePath) => {
+		if (!imagePath) return "/placeholder.svg";
+		if (imagePath.startsWith("http")) return imagePath;
+		return `${API_BASE_URL}${imagePath}`;
 	},
 };
 

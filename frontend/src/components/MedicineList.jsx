@@ -1,8 +1,30 @@
 "use client";
 
 import "./MedicineList.css";
+import { useRef } from "react";
+import DeleteModal from "./DeleteModal";
+import { imageAPI } from "../api";
 
-function MedicineList({ medicines, onEdit, onDelete }) {
+function MedicineList({ medicines, onEdit, onDelete, deleteModal, onDeleteClick, onConfirmDelete, onCancelDelete }) {
+	const fileInputRef = useRef(null);
+
+	const handleUploadImage = async (medicineId, file) => {
+		try {
+			await imageAPI.upload(medicineId, file);
+			window.location.reload();
+		} catch (error) {
+			console.error("Failed to upload image:", error);
+		}
+	};
+
+	const triggerFileInput = (medicineId) => {
+		const input = fileInputRef.current;
+		if (input) {
+			input.medicineId = medicineId;
+			input.click();
+		}
+	};
+
 	if (medicines.length === 0) {
 		return (
 			<div className="empty-state">
@@ -16,14 +38,30 @@ function MedicineList({ medicines, onEdit, onDelete }) {
 	}
 
 	return (
-		<main className="medicine-grid">
-			{medicines.map((medicine) => (
+		<>
+			<main className="medicine-grid">
+				<input
+					type="file"
+					ref={fileInputRef}
+					style={{ display: "none" }}
+					accept="image/*"
+					onChange={(e) => {
+						const file = e.target.files?.[0];
+						if (file && fileInputRef.current?.medicineId) {
+							handleUploadImage(fileInputRef.current.medicineId, file);
+						}
+					}}
+				/>
+				{medicines.map((medicine) => (
 				<div key={medicine.id} className="medicine-card">
 					<div className="card-image">
 						{medicine.hasImage ? (
 							<img
-								src={medicine.imagePath || "/placeholder.svg"}
+								src={imageAPI.getImageUrl(medicine.imagePath)}
 								alt={medicine.name}
+								onError={(e) => {
+									e.currentTarget.src = "/placeholder.svg";
+								}}
 							/>
 						) : (
 							<div className="placeholder">📷</div>
@@ -56,23 +94,34 @@ function MedicineList({ medicines, onEdit, onDelete }) {
 							)}
 						</div>
 					</div>
-					<div className="card-actions">
-						<button
-							className="btn-edit"
-							onClick={() => onEdit(medicine)}
-						>
-							Edit
-						</button>
-						<button
-							className="btn-delete"
-							onClick={() => onDelete(medicine.id)}
-						>
-							Delete
-						</button>
-					</div>
+				<div className="card-actions">
+					<button
+						className="btn-upload"
+						onClick={() => triggerFileInput(medicine.id)}
+						title="Upload image"
+					>
+						📷 Upload
+					</button>
+					<button
+						className="btn-delete"
+						onClick={() =>
+							onDeleteClick(medicine.id, medicine.name)
+						}
+					>
+						🗑 Delete
+					</button>
+				</div>
 				</div>
 			))}
-		</main>
+			</main>
+
+			<DeleteModal
+			isOpen={deleteModal.isOpen}
+			itemName={deleteModal.medicineName}
+			onConfirm={onConfirmDelete}
+			onCancel={onCancelDelete}
+		/>
+		</>
 	);
 }
 
