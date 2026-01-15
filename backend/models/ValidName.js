@@ -21,6 +21,10 @@ const validNameSchema = new mongoose.Schema(
 			type: String,
 			default: null,
 		},
+		cloudinaryPublicId: {
+			type: String,
+			default: null,
+		},
 		hasImage: {
 			type: Boolean,
 			default: false,

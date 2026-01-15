@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import { v2 as cloudinary } from "cloudinary";
 import ValidName from "./models/ValidName.js";
 import Category from "./models/Category.js";
 
@@ -14,6 +15,13 @@ dotenv.config();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Cloudinary setup
+cloudinary.config({
+	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+	api_key: process.env.CLOUDINARY_API_KEY,
+	api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // Connect to MongoDB
 mongoose
@@ -24,24 +32,9 @@ mongoose
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Multer setup for image uploads
-const storage = multer.diskStorage({
-	destination: (req, file, cb) => {
-		const dir = path.join(__dirname, "uploads/medicines");
-		if (!fs.existsSync(dir)) {
-			fs.mkdirSync(dir, { recursive: true });
-		}
-		cb(null, dir);
-	},
-	filename: (req, file, cb) => {
-		const uniqueName = `${Date.now()}-${Math.random()
-			.toString(36)
-			.substr(2, 9)}${path.extname(file.originalname)}`;
-		cb(null, uniqueName);
-	},
-});
+// Multer setup for image uploads (memory storage for Cloudinary)
+const storage = multer.memoryStorage();
 
 const upload = multer({ storage });
 
@@ -211,11 +204,12 @@ app.delete("/api/valid-names/:id", async (req, res) => {
 			return res.status(404).json({ error: "Valid name not found" });
 		}
 
-		// Delete image if exists
-		if (validName.imagePath) {
-			const imagePath = path.join(__dirname, validName.imagePath);
-			if (fs.existsSync(imagePath)) {
-				fs.unlinkSync(imagePath);
+		// Delete image from Cloudinary if exists
+		if (validName.cloudinaryPublicId) {
+			try {
+				await cloudinary.uploader.destroy(validName.cloudinaryPublicId);
+			} catch (err) {
+				console.error("Cloudinary deletion error:", err);
 			}
 		}
 
@@ -226,12 +220,12 @@ app.delete("/api/valid-names/:id", async (req, res) => {
 	}
 });
 
-// POST upload image for valid name
+// PUT upload image for valid name
 app.put(
 	"/api/valid-names/:id/upload",
 	upload.single("image"),
 	async (req, res) => {
-		console.log("POST /api/valid-names/:id/upload - req.body:", req.body);
+		console.log("PUT /api/valid-names/:id/upload - req.body:", req.body);
 		try {
 			if (!req.file) {
 				return res.status(400).json({ error: "No image provided" });
@@ -243,20 +237,42 @@ app.put(
 				return res.status(404).json({ error: "Valid name not found" });
 			}
 
-			// Delete old image if exists
-			if (validName.imagePath) {
-				const oldImagePath = path.join(__dirname, validName.imagePath);
-				if (fs.existsSync(oldImagePath)) {
-					fs.unlinkSync(oldImagePath);
+			// Delete old image from Cloudinary if exists
+			if (validName.cloudinaryPublicId) {
+				try {
+					await cloudinary.uploader.destroy(validName.cloudinaryPublicId);
+				} catch (err) {
+					console.error("Cloudinary deletion error:", err);
 				}
 			}
 
-			validName.imagePath = `/uploads/medicines/${req.file.filename}`;
-			validName.hasImage = true;
+			// Upload to Cloudinary
+			const uploadStream = cloudinary.uploader.upload_stream(
+				{
+					resource_type: "image",
+					public_id: `medicines/${req.params.id}`,
+					overwrite: true,
+					quality: "auto",
+				},
+				async (error, result) => {
+					if (error) {
+						return res
+							.status(500)
+							.json({ error: "Failed to upload image to Cloudinary" });
+					}
 
-			await validName.save();
-			res.json(validName);
+					validName.imagePath = result.secure_url;
+					validName.cloudinaryPublicId = result.public_id;
+					validName.hasImage = true;
+
+					await validName.save();
+					res.json(validName);
+				}
+			);
+
+			uploadStream.end(req.file.buffer);
 		} catch (error) {
+			console.error("Upload error:", error);
 			res.status(500).json({ error: "Failed to upload image" });
 		}
 	}
