@@ -42,16 +42,16 @@ const upload = multer({ storage });
 const rawMedicinesFile = path.join(__dirname, "raw.json");
 
 // Helper: Read raw medicines
-const readRawMedicines = () => {
-	const data = fs.readFileSync(rawMedicinesFile, "utf8");
+const readRawMedicines = async () => {
+	const data = await fs.promises.readFile(rawMedicinesFile, "utf8");
 	return JSON.parse(data);
 };
 
 // GET raw medicines (for validation screen)
-app.get("/api/raw-medicines", (req, res) => {
+app.get("/api/raw-medicines", async (req, res) => {
 	console.log("GET /api/raw-medicines - req.body:", req.body);
 	try {
-		const medicines = readRawMedicines();
+		const medicines = await readRawMedicines();
 		res.json(medicines);
 	} catch (error) {
 		res.status(500).json({ error: "Failed to read raw medicines" });
@@ -70,7 +70,7 @@ app.put("/api/raw-medicines/validate", async (req, res) => {
 		}
 
 		// Read raw medicines
-		const rawMedicines = readRawMedicines();
+		const rawMedicines = await readRawMedicines();
 
 		// Find raw medicine (case-insensitive)
 		const rawMedicine = rawMedicines.find(
@@ -106,7 +106,7 @@ app.put("/api/raw-medicines/validate", async (req, res) => {
 		}
 
 		// Save back to rawnew.json
-		fs.writeFileSync(
+		await fs.promises.writeFile(
 			rawMedicinesFile,
 			JSON.stringify(rawMedicines, null, 2)
 		);

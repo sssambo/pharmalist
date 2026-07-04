@@ -1,0 +1,3 @@
+## 2024-07-04 - Backend I/O Bottleneck
+**Learning:** Using synchronous `fs.readFileSync` and `fs.writeFileSync` in request handlers (like `/api/raw-medicines` and `/api/raw-medicines/validate`) blocks the Node.js event loop. In a production environment with concurrent requests, this drastically reduces throughput, as all other requests must wait for the file I/O to complete before they can be processed.
+**Action:** Replaced synchronous I/O with `fs.promises.readFile` and `fs.promises.writeFile` to ensure the event loop remains unblocked and the server can handle concurrent requests efficiently.
