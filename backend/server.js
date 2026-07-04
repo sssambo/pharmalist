@@ -36,7 +36,10 @@ app.use(express.json());
 // Multer setup for image uploads (memory storage for Cloudinary)
 const storage = multer.memoryStorage();
 
-const upload = multer({ storage });
+const upload = multer({
+	storage,
+	limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit to prevent memory exhaustion
+});
 
 // Raw medicines file path (still using file for raw medicines)
 const rawMedicinesFile = path.join(__dirname, "raw.json");
@@ -149,7 +152,23 @@ app.put("/api/raw-medicines/validate", async (req, res) => {
 app.get("/api/valid-names", async (req, res) => {
 	console.log("GET /api/valid-names - req.body:", req.body);
 	try {
-		const validNames = await ValidName.find().populate("categories");
+		const validNamesRaw = await ValidName.find().populate("categories").lean();
+		const validNames = validNamesRaw.map((doc) => {
+			doc.id = doc._id.toString();
+			delete doc._id;
+			delete doc.__v;
+			if (doc.categories) {
+				doc.categories = doc.categories.map((cat) => {
+					if (cat && cat._id) {
+						cat.id = cat._id.toString();
+						delete cat._id;
+						delete cat.__v;
+					}
+					return cat;
+				});
+			}
+			return doc;
+		});
 		res.json(validNames);
 	} catch (error) {
 		res.status(500).json({ error: "Failed to read valid names" });
@@ -282,7 +301,13 @@ app.put(
 app.get("/api/categories", async (req, res) => {
 	console.log("GET /api/categories - req.body:", req.body);
 	try {
-		const categories = await Category.find().sort({ name: 1 });
+		const categoriesRaw = await Category.find().sort({ name: 1 }).lean();
+		const categories = categoriesRaw.map((doc) => {
+			doc.id = doc._id.toString();
+			delete doc._id;
+			delete doc.__v;
+			return doc;
+		});
 		res.json(categories);
 	} catch (error) {
 		res.status(500).json({ error: "Failed to fetch categories" });
