@@ -17,3 +17,7 @@
 ## 2024-07-04 - Loop Invariant String Manipulation
 **Learning:** Even when wrapped in `useMemo`, calling functions like `.toLowerCase()` inside a `.filter` or `.map` loop forces JavaScript to re-allocate strings for every single iteration. For search filters over hundreds of items, this creates micro-stutters while typing.
 **Action:** Always extract loop-invariant operations (like `const searchLower = search.toLowerCase()`) outside of the iteration block.
+
+## 2024-07-04 - SPA Anti-Pattern: Full Page Reloads
+**Learning:** Using `window.location.reload()` inside a React SPA (like after a successful image upload) defeats the entire purpose of React. It forces the browser to destroy the DOM, dump the JavaScript runtime memory, redownload the HTML, rebuild the React tree from scratch, and re-trigger all initial API calls (in this case, 3 API calls in `fetchData`). This creates a massive performance penalty and jarring user experience.
+**Action:** Replaced `window.location.reload()` with a precise local state update (`onImageUploadSuccess`) to instantly reflect the new image URL in the UI without re-rendering the entire application or hitting the network.

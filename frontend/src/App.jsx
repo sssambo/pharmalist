@@ -296,6 +296,13 @@ function App() {
 					onDeleteClick={handleDeleteClick}
 					onConfirmDelete={handleConfirmDelete}
 					onCancelDelete={handleCancelDelete}
+					onImageUploadSuccess={(updatedMedicine) => {
+						setValidNames(
+							validNames.map((vn) =>
+								vn.id === updatedMedicine.id ? updatedMedicine : vn
+							)
+						);
+					}}
 				/>
 			)}
 		</div>

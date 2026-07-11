@@ -5,13 +5,15 @@ import { useRef } from "react";
 import DeleteModal from "./DeleteModal";
 import { imageAPI } from "../api";
 
-function MedicineList({ medicines, onEdit, onDelete, deleteModal, onDeleteClick, onConfirmDelete, onCancelDelete }) {
+function MedicineList({ medicines, onEdit, onDelete, deleteModal, onDeleteClick, onConfirmDelete, onCancelDelete, onImageUploadSuccess }) {
 	const fileInputRef = useRef(null);
 
 	const handleUploadImage = async (medicineId, file) => {
 		try {
-			await imageAPI.upload(medicineId, file);
-			window.location.reload();
+			const response = await imageAPI.upload(medicineId, file);
+			if (onImageUploadSuccess) {
+				onImageUploadSuccess(response.data);
+			}
 		} catch (error) {
 			console.error("Failed to upload image:", error);
 		}
