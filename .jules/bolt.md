@@ -13,3 +13,7 @@
 ## 2024-07-04 - React Unnecessary Derivation Overhead
 **Learning:** React re-runs the entire component function on every render (e.g., when a modal opens/closes, state updates, or props change). Deriving complex state, like grouping two large arrays via loops and object/Set allocations, directly in the component body creates a massive, unnecessary performance bottleneck and triggers excess garbage collection.
 **Action:** Wrapped expensive derivations in `useMemo` hooks (e.g., `unvalidatedByName` grouping, and search `filtered` arrays) so they are only recalculated when their specific dependencies (`rawMedicines`, `validNames`, `search`) change. Lifted repetitive string manipulations (like `search.toLowerCase()`) outside of loops inside the memo.
+
+## 2024-07-04 - Loop Invariant String Manipulation
+**Learning:** Even when wrapped in `useMemo`, calling functions like `.toLowerCase()` inside a `.filter` or `.map` loop forces JavaScript to re-allocate strings for every single iteration. For search filters over hundreds of items, this creates micro-stutters while typing.
+**Action:** Always extract loop-invariant operations (like `const searchLower = search.toLowerCase()`) outside of the iteration block.

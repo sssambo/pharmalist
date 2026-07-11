@@ -28,15 +28,14 @@ function ValidateNamesModal({
 		[validNames]
 	);
 
-	const filteredMedicines = useMemo(
-		() =>
-			medicinesByName.filter(
-				(m) =>
-					m.name.toLowerCase().includes(search.toLowerCase()) &&
-					!validNameSet.has(m.name.toLowerCase())
-			),
-		[medicinesByName, search, validNameSet]
-	);
+	const filteredMedicines = useMemo(() => {
+		const searchLower = search.toLowerCase();
+		return medicinesByName.filter(
+			(m) =>
+				m.name.toLowerCase().includes(searchLower) &&
+				!validNameSet.has(m.name.toLowerCase())
+		);
+	}, [medicinesByName, search, validNameSet]);
 
 	const handleAddName = (medicine) => {
 		onAddValidName(medicine.name, medicine.units);
