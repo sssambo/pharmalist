@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import MedicineList from "./components/MedicineList";
 import ValidateNamesModal from "./components/ValidateNamesModal";
 import EditRawMedicineModal from "./components/EditRawMedicineModal";
@@ -29,7 +29,7 @@ function App() {
 	});
 
 	// derived: unvalidated grouped names
-	const unvalidatedByName = () => {
+	const unvalidatedByName = useMemo(() => {
 		const grouped = {};
 		rawMedicines.forEach((m) => {
 			const key = m.name.toLowerCase();
@@ -41,7 +41,7 @@ function App() {
 		return Object.values(grouped).filter(
 			(g) => !validSet.has(g.name.toLowerCase())
 		);
-	};
+	}, [rawMedicines, validNames]);
 
 	useEffect(() => {
 		fetchData();
@@ -195,7 +195,7 @@ function App() {
 						className={`nav-btn ${step === "unvalidated" ? "active" : ""}`}
 						onClick={() => setStep("unvalidated")}
 					>
-						Unvalidated ({unvalidatedByName().length})
+						Unvalidated ({unvalidatedByName.length})
 					</button>
 					<button
 						className={`nav-btn ${step === "list" ? "active" : ""}`}

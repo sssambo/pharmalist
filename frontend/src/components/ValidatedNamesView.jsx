@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import AddCategoriesModal from "./AddCategoriesModal"
 import AddUnitsModal from "./AddUnitsModal"
 import "./Modal.css"
@@ -12,7 +12,10 @@ function ValidatedNamesView({ validNames, onEditName, onClose, onValidNamesUpdat
   const [addUnitsOpen, setAddUnitsOpen] = useState(false)
   const [selectedValidName, setSelectedValidName] = useState(null)
 
-  const filtered = validNames.filter((vn) => vn.name.toLowerCase().includes(search.toLowerCase()))
+  const filtered = useMemo(() => {
+    const searchLower = search.toLowerCase();
+    return validNames.filter((vn) => vn.name.toLowerCase().includes(searchLower));
+  }, [validNames, search]);
 
   const handleAddCategories = (validName) => {
     setSelectedValidName(validName)
